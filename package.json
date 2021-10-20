@@ -1,0 +1,28 @@
+{
+  "name": "learn-webpack",
+  "version": "1.0.0",
+  "description": "learn webpack for a week",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhucaiyun/learn-webpack.git"
+  },
+  "keywords": [
+    "webpack",
+    "learn"
+  ],
+  "author": "zhucaiyun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhucaiyun/learn-webpack/issues"
+  },
+  "homepage": "https://github.com/zhucaiyun/learn-webpack#readme",
+  "devDependencies": {
+    "webpack": "^5.59.0",
+    "webpack-cli": "^4.9.1"
+  }
+}
