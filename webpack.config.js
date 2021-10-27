@@ -2,10 +2,10 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2021-10-26 11:49:30
+ * @LastEditTime : 2021-10-27 20:56:05
  * @Description  : 描述信息
  */
-const HtmlWebpackPlugin = require('html-webpack-plugin/typings');
+// const HtmlWebpackPlugin = require('html-webpack-plugin/typings');
 const resolve = require('path');
 
 module.exports = {
@@ -30,7 +30,11 @@ module.exports = {
  * */
   module: {
     rules: [
-      { test: /\.css$/, use: 'css-loader' }
+      { test: /\.css$/, use: 'css-loader' },
+      {
+        test: /\.js$/,
+        use: 'babel-loader'
+      }
     ]
   },
   /*
@@ -44,9 +48,9 @@ module.exports = {
  * DefinedPlugin： ？？？
  * todo 怎么用
  * */
-  plugins: [
-    new HtmlWebpackPlugin({template: './src/index.html'})
-  ],
+  // plugins: [
+  //   new HtmlWebpackPlugin({template: './src/index.html'})
+  // ],
   // 根据不同环境设置 webpack会开启对应环境的一些优化设置
-  mode:'development' // 开发 'production' 生产环境
+  mode:'none' // 开发 'production' 生产环境
 };

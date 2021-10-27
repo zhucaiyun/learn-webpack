@@ -1,1 +1,0 @@
-(()=>{"use strict";document.write("hello webpack! <br/> hello world")})();
