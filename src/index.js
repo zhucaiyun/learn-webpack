@@ -1,2 +1,3 @@
 import { helloWorld } from "./helloWorld";
-document.write (helloWorld())
+// import style from './index.css'
+document.write(helloWorld())

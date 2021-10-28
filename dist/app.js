@@ -7,8 +7,8 @@ var __webpack_exports__ = {};
  * @LastEditTime : 2021-10-27 20:43:13
  * @Description  : 描述信息
  */
-let i = 1;
-const a = 2;
+var i = 1;
+var a = 2;
 console.log('appIndex');
 /******/ })()
 ;

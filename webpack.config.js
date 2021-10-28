@@ -2,7 +2,7 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2021-10-27 20:56:05
+ * @LastEditTime : 2021-10-28 14:57:31
  * @Description  : 描述信息
  */
 // const HtmlWebpackPlugin = require('html-webpack-plugin/typings');
@@ -33,7 +33,21 @@ module.exports = {
       { test: /\.css$/, use: 'css-loader' },
       {
         test: /\.js$/,
-        use: 'babel-loader'
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'] // 不用专门的babelrc文件了
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [{ loader: 'style-loader'}, {loader: 'css-loader' }]
+      },
+      {
+        test: /\.scss$/,
+        use: ["style-loader","css-loader","sass-loader"]
       }
     ]
   },

@@ -10,7 +10,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "helloWorld": () => (/* binding */ helloWorld)
 /* harmony export */ });
 function helloWorld() {
-  return 'hello webpack! <br/> hello world'
+  return 'hello webpack! <br/> hello world';
 }
 
 /***/ })
@@ -75,8 +75,9 @@ var __webpack_exports__ = {};
 (() => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helloWorld__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+ // import style from './index.css'
 
-document.write ((0,_helloWorld__WEBPACK_IMPORTED_MODULE_0__.helloWorld)())
+document.write((0,_helloWorld__WEBPACK_IMPORTED_MODULE_0__.helloWorld)());
 })();
 
 /******/ })()
