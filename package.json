@@ -5,7 +5,8 @@
   "main": "start.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "@babel/preset-env": "^7.15.8",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.0",
+    "file-loader": "^6.2.0",
     "node-sass": "^6.0.1",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",

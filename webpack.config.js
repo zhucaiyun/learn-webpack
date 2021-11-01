@@ -2,7 +2,7 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2021-10-28 14:57:31
+ * @LastEditTime : 2021-11-01 10:11:45
  * @Description  : 描述信息
  */
 // const HtmlWebpackPlugin = require('html-webpack-plugin/typings');
@@ -19,15 +19,15 @@ module.exports = {
     path: resolve.join(__dirname, '/dist') // __dirname node.js的全局变量，当前执行脚本所在的目录
   },
   /*
- * loader是一个函数，源文件作为参数，输出供下一步使用的内容 这些文件是webpack不能识别的文件（除js和json外的） 用于对模块源代码进行转换
- * 常见的loader
- * babel-loader: 转换es6es7为es5
- * css-loader: 编译加载css文件
- * less-loader/sass-loader
- * file-loader: 图片，富文本文件的加载
- * raw-loader: 文本文件转换成字符的形式
- * thread-loader: 使webpack可以多进制打包文件
- * */
+  * loader是一个函数，源文件作为参数，输出供下一步使用的内容 这些文件是webpack不能识别的文件（除js和json外的） 用于对模块源代码进行转换
+  * 常见的loader
+  * babel-loader: 转换es6es7为es5
+  * css-loader: 编译加载css文件
+  * less-loader/sass-loader
+  * file-loader: 图片，富文本文件的加载
+  * raw-loader: 文本文件转换成字符的形式
+  * thread-loader: 使webpack可以多进制打包文件
+  * */
   module: {
     rules: [
       { test: /\.css$/, use: 'css-loader' },
@@ -43,11 +43,24 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [{ loader: 'style-loader'}, {loader: 'css-loader' }]
+        use: ["style-loader","css-loader"]
       },
       {
         test: /\.scss$/,
         use: ["style-loader","css-loader","sass-loader"]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
+      },
+      {
+        test: /\.ttf$/,
+        use: 'file-loader'
       }
     ]
   },
@@ -66,5 +79,18 @@ module.exports = {
   //   new HtmlWebpackPlugin({template: './src/index.html'})
   // ],
   // 根据不同环境设置 webpack会开启对应环境的一些优化设置
-  mode:'none' // 开发 'production' 生产环境
+  mode: 'none', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
+  /* *
+  * 监听文件变化 watch：但是不会自动刷新页面
+  *  
+  * 
+  *
+  * 
+  * */
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 300, // 做一个延迟 ms
+    poll: 1000, // 指定毫秒进行轮询 
+    ignored: ['node_modules'] //忽略监听的文件 /node_modules/
+  }
 };

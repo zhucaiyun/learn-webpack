@@ -1,3 +1,4 @@
 import { helloWorld } from "./helloWorld";
-// import style from './index.css'
+import img from './imgs/jobs.jpg'
+import './index.scss'
 document.write(helloWorld())
