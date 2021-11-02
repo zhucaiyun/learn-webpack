@@ -1,4 +1,7 @@
 import { helloWorld } from "./helloWorld";
 import img from './imgs/jobs.jpg'
-import './index.scss'
+import css from './index.scss'
 document.write(helloWorld())
+console.log('erro console')
+const divElement = document.createElement("div");
+divElement.className = styles["my-class"];

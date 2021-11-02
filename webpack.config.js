@@ -2,11 +2,12 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2021-11-01 10:11:45
+ * @LastEditTime : 2021-11-02 14:06:44
  * @Description  : 描述信息
  */
 // const HtmlWebpackPlugin = require('html-webpack-plugin/typings');
 const resolve = require('path');
+
 
 module.exports = {
   // entry: './src.js' // 打包入口
@@ -43,7 +44,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader","css-loader"]
+        use: [{
+          loader: 'style-loader',
+          options: {injectType: "styleTag"}
+        },"css-loader"]
       },
       {
         test: /\.scss$/,
@@ -79,18 +83,27 @@ module.exports = {
   //   new HtmlWebpackPlugin({template: './src/index.html'})
   // ],
   // 根据不同环境设置 webpack会开启对应环境的一些优化设置
-  mode: 'none', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
+  mode: 'development', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
   /* *
   * 监听文件变化 watch：但是不会自动刷新页面
-  *  
-  * 
-  *
-  * 
   * */
-  watch: true,
-  watchOptions: {
-    aggregateTimeout: 300, // 做一个延迟 ms
-    poll: 1000, // 指定毫秒进行轮询 
-    ignored: ['node_modules'] //忽略监听的文件 /node_modules/
-  }
+  // watch: true,
+  // watchOptions: {
+  //   aggregateTimeout: 300, // 做一个延迟 ms
+  //   poll: 1000, // 指定毫秒进行轮询 
+  //   ignored: ['node_modules'] //忽略监听的文件 /node_modules/
+  // },
+  /*
+  * 热更新：页面自动更新 【https://webpack.docschina.org/configuration/dev-server/#devserverstatic]
+ * 原理：
+ * 方法1: webpack-dev-server
+ * 方法2: webpack-dev-middleware 未实验
+ * */
+  devtool: 'inline-source-map', // 在开发环境下会将错误映射到源码中而不是编译后的代码中
+  devServer: {
+    static: resolve.join(__dirname, 'dist'), // 用于确定应该从哪里提供bundle static 不要用contentBase
+    compress: true,
+    port: 9998,
+    hot: true
+  },
 };
