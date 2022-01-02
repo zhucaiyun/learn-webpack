@@ -1,3 +1,4 @@
 export function helloWorld() {
-  return 'hello webpack! <br/> hello world'
+  const a = 1
+  return 'hello webpack! <br/> hello world change </>'+a
 }

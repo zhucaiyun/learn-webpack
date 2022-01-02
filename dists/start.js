@@ -1,1 +1,1 @@
-(()=>{"use strict";document.write("hello webpack! <br/> hello world")})();
+(()=>{"use strict";document.write("hello webpack! <br/> hello world change </>1"),new Promise(void console.log("haha")).then((function(){console.log("b")}))})();
