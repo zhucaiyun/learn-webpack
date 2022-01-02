@@ -1,0 +1,16 @@
+// 定义字体
+@font-face {
+  font-family: 'NotoSansCJKtc-Bold';
+  src: url('./font/NotoSansCJKtc-Bold.ttf');
+  font-display: block;
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  color: green;
+  font-size: 18px;
+  
+}
+p {
+  font-family:'NotoSansCJKtc-Bold';
+}
