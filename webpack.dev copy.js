@@ -3,13 +3,12 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2021-11-02 14:06:44
+ * @LastEditTime : 2022-01-19 18:30:02
  * @Description  : 描述信息
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const resolve = require('path');
-const { webpack } = require('webpack');
-// const webpack = require('webpack')
+const webpack = require('webpack')
 
 
 module.exports = {
@@ -26,17 +25,16 @@ module.exports = {
   // 感觉没什么用呢
   module: {
     rules: [
-      
-  /*
-  * loader是一个函数，源文件作为参数，输出供下一步使用的内容 这些文件是webpack不能识别的文件（除js和json外的） 用于对模块源代码进行转换
-  * 常见的loader
-  * babel-loader: 转换es6es7为es5
-  * css-loader: 编译加载css文件
-  * less-loader/sass-loader
-  * file-loader: 图片，富文本文件的加载
-  * raw-loader: 文本文件转换成字符的形式
-  * thread-loader: 使webpack可以多进制打包文件
-  * */
+      /*
+      * loader是一个函数，源文件作为参数，输出供下一步使用的内容 这些文件是webpack不能识别的文件（除js和json外的） 用于对模块源代码进行转换
+      * 常见的loader
+      * babel-loader: 转换es6es7为es5
+      * css-loader: 编译加载css文件
+      * less-loader/sass-loader
+      * file-loader: 图片，富文本文件的加载
+      * raw-loader: 文本文件转换成字符的形式
+      * thread-loader: 使webpack可以多进制打包文件
+      * */
       { test: /\.css$/, use: 'css-loader' },
       {
         test: /\.js$/,
@@ -106,7 +104,7 @@ module.exports = {
   // watch: true,
   // watchOptions: {
   //   aggregateTimeout: 300, // 做一个延迟 ms
-  //   poll: 1000, // 指定毫秒进行轮询 
+  //   poll: 1000, // 指定毫秒进行轮询
   //   ignored: ['node_modules'] //忽略监听的文件 /node_modules/
   // },
   /*
@@ -128,7 +126,11 @@ module.exports = {
     port: 9998,
     hot: true
   }
-
+  /* 20、文件指纹、
+  * 版本管理-没有修改的文件可以继续使用？ compile  compilelation
+  * 方式： hash:（整个项目的构建相关，只要项目中有文件修改，hash就会变） chunkhash（js）: 和webpack打包的chunk或者模块有关，不同的entry会生成不同的chunkhas值； contenthash（css）: 根据文件内容来定义hash 文件内容不变则contenthash不变； 那为什么不都用contenthash呢？
+  */ 
+  // 
   
 
 }
