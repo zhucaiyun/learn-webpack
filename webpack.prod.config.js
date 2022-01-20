@@ -3,12 +3,13 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2022-01-19 18:30:02
+ * @LastEditTime : 2022-01-20 16:42:32
  * @Description  : 描述信息
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const resolve = require('path');
 const webpack = require('webpack')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 
 module.exports = {
@@ -18,8 +19,8 @@ module.exports = {
     app: './src/appIndex.js'
   },
   output: {
-    filename: '[name].js', // 以entry的key作为name
-    path: resolve.join(__dirname, '/dist') // __dirname node.js的全局变量，当前执行脚本所在的目录
+    filename: '[name][hash:4].js', // 以entry的key作为name
+    path: resolve.join(__dirname, '/buildDist') // __dirname node.js的全局变量，当前执行脚本所在的目录
   },
   // 12-loaders webapck原生支持js和json 将各种关系的js jsonn文件转换成可接受的文件，供使用；那为什么要webpack呢 loader就是转换其他css 图片 字体等文件
   // 感觉没什么用呢
@@ -35,7 +36,7 @@ module.exports = {
       * raw-loader: 文本文件转换成字符的形式
       * thread-loader: 使webpack可以多进制打包文件
       * */
-      { test: /\.css$/, use: 'css-loader' },
+      // { test: /\.css$/, use: 'css-loader' },
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
@@ -48,24 +49,43 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader","css-loader"]
+        use: [
+          MiniCssExtractPlugin.loader,'css-loader'
+        ],
+        // options: {
+        //   filename: '[name]_[contenthash:5].[ext]'
+        // }
       },
       // {
       //   test: /\.scss$/,
       //   use: ["style-loader","css-loader","sass-loader"]
       // },
+    /*
+     * [ext]: 文件后缀名
+     *
+     * 
+     */ 
       {
         test: /\.(png|jpg|gif)$/,
         use: [
           {
             loader: 'file-loader',
-            options: {}
+            options: {
+              name: 'img/[name][hash:4].[ext]'
+            }
           }
         ]
       },
       {
         test: /\.ttf$/,
-        use: 'file-loader'
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+          }
+        ],
       }
       // todo 16-解析css less sass
       // todo 17-图片和字体资源
@@ -76,10 +96,13 @@ module.exports = {
   // 13-plugins js 优化，资源管理，环境变量注入； 构建前删除目录等；整个构建工程
   plugins: [
     new HtmlWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new MiniCssExtractPlugin({
+      filename: '[name]_[contenthash:8].css'
+    })
+    // new webpack.HotModuleReplacementPlugin()
   ],
   // 14-mode todo 5中没有mode配置了吧
-  mode: 'development', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
+  mode: 'production', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
   // 15-解析es6和reactJsx
   
   /*
@@ -119,16 +142,17 @@ module.exports = {
   * 3、set devserver
   * wdm
   * */
-  devtool: 'inline-source-map', // 在开发环境下会将错误映射到源码中而不是编译后的代码中
-  devServer: {
-    static: resolve.join(__dirname, 'dist'), // 用于确定应该从哪里提供bundle static 不要用contentBase
-    compress: true,
-    port: 9998,
-    hot: true
-  }
+  // devtool: 'inline-source-map', // 在开发环境下会将错误映射到源码中而不是编译后的代码中
+  // devServer: {
+  //   static: resolve.join(__dirname, 'dist'), // 用于确定应该从哪里提供bundle static 不要用contentBase
+  //   compress: true,
+  //   port: 9998,
+  //   hot: true
+  // }
   /* 20、文件指纹、
-  * 版本管理-没有修改的文件可以继续使用？ compile  compilelation
-  * 方式： hash:（整个项目的构建相关，只要项目中有文件修改，hash就会变） chunkhash（js）: 和webpack打包的chunk或者模块有关，不同的entry会生成不同的chunkhas值； contenthash（css）: 根据文件内容来定义hash 文件内容不变则contenthash不变； 那为什么不都用contenthash呢？
+  * chunk(入口有关，entry中一个文件就是一个chunk), bundle(打包生成的文件), module（自己的源代码）
+  * 版本管理-没有修改的文件可以继续使用？ compile  compilelation影响hash
+  * 方式： hash:（整个项目的构建相关，只要项目中有文件修改，hash就会变） chunkhash（js）: 和webpack打包的chunk或者模块有关，不同的entry会生成不同的chunkhas值； contenthash（css）: 根据文件内容来定义hash 文件内容不变则contenthash（根据bundle）不变； 那为什么不都用contenthash呢？
   */ 
   // 
   

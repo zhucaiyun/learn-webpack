@@ -3,7 +3,7 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2022-01-19 18:11:21
+ * @LastEditTime : 2022-01-20 11:12:57
  * @Description  : 描述信息
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
