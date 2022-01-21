@@ -3,13 +3,14 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2022-01-20 17:17:28
+ * @LastEditTime : 2022-01-21 17:04:50
  * @Description  : 描述信息
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const resolve = require('path');
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 
 module.exports = {
@@ -50,9 +51,9 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
+        test: /.s?css$/,
         use: [
-          MiniCssExtractPlugin.loader,'css-loader'
+          MiniCssExtractPlugin.loader,'css-loader',"sass-loader"
         ],
       },
       // {
@@ -95,12 +96,20 @@ module.exports = {
       * todo 17-图片和字体资源
       */
 
+    ],
+
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new HtmlWebpackPlugin()
     ]
   },
   
   /* 13-plugins js 优化，资源管理，环境变量注入； 构建前删除目录等；整个构建工程 */
   plugins: [
-    new HtmlWebpackPlugin(),
+    // new HtmlWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name]_[contenthash:8].css'
     })
@@ -174,9 +183,9 @@ module.exports = {
   
   /*
   * 21、html,css,js代码压缩
-  * 
-  * 
-  * 
+  * js会自动压缩 webpack自动加载了压缩js的插件
+  * html: html-webpack-plugin 【https://github.com/jantimon/html-webpack-plugin#options】
+  * css: CssMinimizerPlugin在optimization中配置使用将抽离出来的css压缩
   */ 
   
 
