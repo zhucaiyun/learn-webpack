@@ -1,2 +1,8 @@
 console.log("appIndexdfasd");
+var a = sessionStorage.getItem('num')||0
+var b = localStorage.getItem('num')||0
+console.log('session',a)
+console.log('local',b)
+sessionStorage.setItem('num',a+1)
+localStorage.setItem('num',b+1)
 //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwLmpzIiwibWFwcGluZ3MiOiJBQVNBQSxRQUFRQyxJQUFJIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vbGVhcm4td2VicGFjay8uL3NyYy9hcHBJbmRleC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogQEF1dGhvciAgICAgICA6IHpodWNhaXl1bjFAeGRmLmNuXG4gKiBARGF0ZSAgICAgICAgIDogMjAyMS0xMC0yNSAyMDoxNDo1MVxuICogQExhc3RFZGl0b3JzICA6IHpodWNhaXl1bjFAeGRmLmNuXG4gKiBATGFzdEVkaXRUaW1lIDogMjAyMS0xMC0yNyAyMDo0MzoxM1xuICogQERlc2NyaXB0aW9uICA6IOaPj+i/sOS/oeaBr1xuICovXG5sZXQgaSA9IDE7XG5jb25zdCBhID0gMjtcbmNvbnNvbGUubG9nKCdhcHBJbmRleCcpOyJdLCJuYW1lcyI6WyJjb25zb2xlIiwibG9nIl0sInNvdXJjZVJvb3QiOiIifQ==

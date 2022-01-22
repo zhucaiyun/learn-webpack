@@ -1,5 +1,5 @@
 import { helloWorld } from "./helloWorld";
-import img from './imgs/jobs.jpg'
+// import './imgs/jobs.jpg'
 // import './index.css'  // 报错；l
 document.write('dasd s')
 document.write(helloWorld())

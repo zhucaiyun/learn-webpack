@@ -8,8 +8,7 @@
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const resolve = require('path');
-const { webpack } = require('webpack');
-// const webpack = require('webpack')
+// const { webpack } = require('webpack');
 
 
 module.exports = {
@@ -78,7 +77,7 @@ module.exports = {
   // 13-plugins js 优化，资源管理，环境变量注入； 构建前删除目录等；整个构建工程
   plugins: [
     new HtmlWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    // new webpack.HotModuleReplacementPlugin()
   ],
   // 14-mode todo 5中没有mode配置了吧
   mode: 'development', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
@@ -124,7 +123,7 @@ module.exports = {
   devtool: 'inline-source-map', // 在开发环境下会将错误映射到源码中而不是编译后的代码中
   devServer: {
     static: resolve.join(__dirname, 'dist'), // 用于确定应该从哪里提供bundle static 不要用contentBase
-    compress: true,
+    // compress: true,
     port: 9998,
     hot: true
   }
