@@ -6,11 +6,25 @@
   font-weight: normal;
   font-style: normal;
 }
+html {
+  font-size: 10px;
+}
 body {
+
   color: green;
   font-size: 18px;
-  
+  border-radius: 10px;
+  display: flex;
+  .main {
+    transform: scale(2);
+  }
 }
 p {
   font-family:'NotoSansCJKtc-Bold';
+}
+::placeholder {
+  color: purple;
+}
+p {
+  font-size: 14px;
 }

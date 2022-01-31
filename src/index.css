@@ -1,4 +1,6 @@
 .my-class {
   font-size: 14px;
   color: blue;
+  border-radius: 10px;
+  flex: 1;
 }

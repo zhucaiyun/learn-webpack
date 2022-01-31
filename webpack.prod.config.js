@@ -3,15 +3,16 @@
  * @Author       : zhucaiyun1@xdf.cn
  * @Date         : 2021-10-25 20:05:21
  * @LastEditors  : zhucaiyun1@xdf.cn
- * @LastEditTime : 2022-01-21 17:04:50
+ * @LastEditTime : 2022-01-29 13:55:48
  * @Description  : 描述信息
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const resolve = require('path');
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   // entry: './src.js' // 打包入口
@@ -20,8 +21,9 @@ module.exports = {
     app: './src/appIndex.js'
   },
   output: {
-    filename: '[name][hash:4].js', // 以entry的key作为name
-    path: resolve.join(__dirname, '/buildDist') // __dirname node.js的全局变量，当前执行脚本所在的目录
+    filename: '[name][chunkhash:4].js', // 以entry的key作为name
+    path: resolve.join(__dirname, '/buildDist'), // __dirname node.js的全局变量，当前执行脚本所在的目录
+    clean: true
   },
   /* 
   * 12-loaders webapck原生支持js和json 将各种关系的js jsonn文件转换成可接受的文件，供使用；那为什么要webpack呢 loader就是转换其他css 图片 字体等文件 感觉没什么用呢
@@ -38,8 +40,6 @@ module.exports = {
       * raw-loader: 文本文件转换成字符的形式
       * thread-loader: 使webpack可以多进制打包文件
       * */
-      
-      // { test: /\.css$/, use: 'css-loader' },
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
@@ -53,13 +53,35 @@ module.exports = {
       {
         test: /.s?css$/,
         use: [
-          MiniCssExtractPlugin.loader,'css-loader',"sass-loader"
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'px2rem-loader',
+            options: {
+              remUnit: 5,
+              remPrecision: 8
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    autoprefixer,
+                    {
+                      browserslist: ["last 1 version"]
+                    }
+                   
+                  ]
+                ]
+              }
+            }
+          },
+          "sass-loader"
+          
         ],
       },
-      // {
-      //   test: /\.scss$/,
-      //   use: ["style-loader","css-loader","sass-loader"]
-      // },
     /*
      * [ext]: 文件后缀名
      * [name]: 文件名称
@@ -75,9 +97,9 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'img/[name][hash:4].[ext]'
+              name: 'img/[name][contenthash:4].[ext]'
             }
-          }
+          },
         ]
       },
       {
@@ -103,21 +125,14 @@ module.exports = {
     minimize: true,
     minimizer: [
       new CssMinimizerPlugin(),
-      new HtmlWebpackPlugin()
+      new HtmlWebpackPlugin(),
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i
+      })
     ]
   },
   
-  /* 13-plugins js 优化，资源管理，环境变量注入； 构建前删除目录等；整个构建工程 */
-  plugins: [
-    // new HtmlWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name]_[contenthash:8].css'
-    })
-    // new webpack.HotModuleReplacementPlugin()
-  ],
-  /* 14-mode todo 5中没有mode配置了吧 */
-  mode: 'production', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
-  /* 15-解析es6和reactJsx */
+
   
   /*
   * CommonsChunkPlugin: 将chunks相同的模块代码提取成公共js
@@ -131,9 +146,17 @@ module.exports = {
   * todo 怎么用
   * */
   
-  // plugins: [
-  //   new HtmlWebpackPlugin({template: './src/index.html'})
-  // ],
+  /* 13-plugins js 优化，资源管理，环境变量注入； 构建前删除目录等；整个构建工程 */
+  plugins: [
+    // new HtmlWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name]_[contenthash:8].css'
+    })
+    // new webpack.HotModuleReplacementPlugin()
+  ],
+  /* 14-mode todo 5中没有mode配置了吧 */
+  mode: 'production', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
+  /* 15-解析es6和reactJsx */
 
   /* *
   * 根据不同环境设置 webpack会开启对应环境的一些优化设置
@@ -179,15 +202,30 @@ module.exports = {
   * chunkhash（js）: 和webpack打包的chunk或者模块有关，不同的entry会生成不同的chunkhas值； 
   * contenthash（css）: 根据文件内容来定义hash 文件内容不变则contenthash（根据bundle）不变； 那为什么不都用contenthash呢？
   * chunkfilename,filename区别
-  */ 
+  */
   
   /*
   * 21、html,css,js代码压缩
   * js会自动压缩 webpack自动加载了压缩js的插件
   * html: html-webpack-plugin 【https://github.com/jantimon/html-webpack-plugin#options】
   * css: CssMinimizerPlugin在optimization中配置使用将抽离出来的css压缩
+  */
+  /*
+  * 22、高级用法｜自动清理构建目录
+  * webpack 5:使用了output中设置clean即可
+  * webpack 4:使用cleanWebpackPlugin来设置
+  */
+  /*
+  * 23: css自动加前缀-postcss-loader
+  * 浏览器内核 ie： trident；firefox：Gecko；chrome,safari：webkit；
+  * 安装：postcss postcss-loader autoprefixer （autoprefixer需要通过require来引入使用）
+  * 厂商前缀是根据支持程度来判断是否家
+  */
+  /*
+  * 24: px转换rem；
+  * 1、px2rem-loader:"undefined missing '}'":将px2rem放到css-loader之后即可；不要放到sass-loader之后
+  * 2、lib-flexible  -S?-D 动态计算不同屏幕大小上跟元素的font-size
   */ 
-  
 
 }
            
