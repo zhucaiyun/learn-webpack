@@ -1,0 +1,47 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Webpack App</title><meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>
+    (function flexible (window,document) {
+      var docEl = document.documentElement
+      var dpr = window.devicePixelRatio
+      // 设置body 这是什么 为什么设置body的fontsize
+      // function setBodyFontSize() {
+      //   if(document.body) {
+      //     // 这是什么
+      //     document.body.style.fontSize = (dpr*12)+'px'
+      //   } else {
+      //     document.addEventListener('DOMContentLoaded', setBodyFontSize)
+      //   }
+      // }
+      // setBodyFontSize()
+      // 设置跟元素的font-size
+      function setRemUnit() {
+        // html的clientWidth表示当前视口的宽度
+        var rem = docEl.clientWidth / 10
+        docEl.style.fontSize = rem + 'px'
+      }
+      setRemUnit()
+      window.addEventListener('resize',setRemUnit)
+      window.addEventListener('pateshow', function(e){
+        // 从缓存中加载的
+        if(e.persisted) {
+          setRemUnit()
+        }
+      })
+      // 看不懂 明天看视频学习
+      if(dpr>=2) {
+        var fakeVody = document.createElement('body')
+        var testEle = document.createElement('div')
+        testEle.style.body = '.5px solid transparent'
+        fakeBody.appendChild(testEle)
+        docEl.appendChild(fakeBody)
+        if(testEle.offsetHeight === 1) {
+          docEl.classList.add('hairLines')
+        }
+        docEl.removeChild(fakeBody)
+      }
+    })(window,document)
+  </script>
+  <script defer="defer" src="pcbef2.js"></script><script defer="defer" src="app4230.js"></script><link href="pc_d02bf1aa.css" rel="stylesheet"></head><body>
+  <p>p 哈哈哈哈</p>
+  <div class="main">main 呵呵呵呵呵</div>
+</body></html>

@@ -58,7 +58,7 @@ module.exports = {
           {
             loader: 'px2rem-loader',
             options: {
-              remUnit: 5,
+              remUnit: 75,
               remPrecision: 8
             }
           },
@@ -90,17 +90,30 @@ module.exports = {
      * [contenthash]: 文件的内容hash，默认是md5生成
      * [hash]：文件的内容hash，默认是md5生成
      * [emoji]:what
+     * @question:Module build failed (from ./node_modules/file-loader/dist/cjs.js):
+        Error: error:0308010C:digital envelope routines::unsupported
+        at new Hash (node:internal/crypto/hash:67:19)
+        at Object.createHash (node:crypto:130:10)
+        at getHashDigest (/Users/zcy/Documents/zlearn/learn-webpack/node_modules/file-loader/node_modules/loader-utils/lib/getHashDigest.js:46:34)
+        at /Users/zcy/Documents/zlearn/learn-webpack/node_modules/file-loader/node_modules/loader-utils/lib/interpolateName.js:113:11
+     *  https://stackoverflow.com/questions/69692842/error-message-error0308010cdigital-envelope-routinesunsupported
+    * @answer: export NODE_OPTIONS=--openssl-legacy-provider    终端中输入这个命令？node版本的问题
      */ 
       {
         test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'img/[name][contenthash:4].[ext]'
-            }
-          },
-        ]
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name][contenthash:4][ext][query]'
+        }
+        // use: [
+        //   {
+        //     // loader: 'file-loader',
+        //     options: {
+        //       name: 'img/[name][contenthash:4].[ext]'
+        //     }
+
+        //   },
+        // ]
       },
       {
         test: /\.ttf$/,
@@ -126,7 +139,7 @@ module.exports = {
     minimizer: [
       new CssMinimizerPlugin(),
       new HtmlWebpackPlugin(),
-      new TerserPlugin({
+      new TerserPlugin({// 压缩js的
         test: /\.js(\?.*)?$/i
       })
     ]
@@ -206,7 +219,7 @@ module.exports = {
   
   /*
   * 21、html,css,js代码压缩
-  * js会自动压缩 webpack自动加载了压缩js的插件
+  * js会自动压缩 webpack自动加载了压缩js的插件 
   * html: html-webpack-plugin 【https://github.com/jantimon/html-webpack-plugin#options】
   * css: CssMinimizerPlugin在optimization中配置使用将抽离出来的css压缩
   */
@@ -226,6 +239,38 @@ module.exports = {
   * 1、px2rem-loader:"undefined missing '}'":将px2rem放到css-loader之后即可；不要放到sass-loader之后
   * 2、lib-flexible  -S?-D 动态计算不同屏幕大小上跟元素的font-size
   */ 
+ /*
+ * 25:资源内联-优化 减少http请求
+ * 讲一些html css js 图片内联到某个html中
+ * webpack4使用row-loader?5使用row-loader[html/js]；css使用style-loader或者html-inline-css-webpack-plugin
+ */
+/*
+* 26:多页面应用： seo优化
+* 通过函数修改entry等生成多个html文件
+* 用到glob
+*/
+/*
+* 27: source map - dev环境比较多
+* map类型：eval：通过eval方法将映射信息在编译的js代码中：source-map：将js文件进行了分离；inline-source-map：map和内容是在一起的 将map内联到js文件中 文件体积变大很多；source-map
+* devtool中设置source map
+*/
+/*
+* 28： 公共资源抽取-解决js过大问题
+* 1、html-external-plugin:需要在html中引用一下抽取文件的cdn地址 那些场景会使用 在plugins 
+https://www.npmjs.com/package/html-webpack-externals-plugin
+* 2、SplitChunksPlugin: 拆分公共资源通过cacheGroups进行设置 在optimization
+https://webpack.docschina.org/plugins/split-chunks-plugin/
+*/
+/*
+* 29: 
+*/
 
+/*
+* todo
+* 魔法教师或者frontend中build或者dev有用到sourcemap吗？什么类型？有用到source的plugins或者loader吗？
+* 运行的很慢在改完东西后：
+* 首屏加载慢： 
+*/
 }
            
+
