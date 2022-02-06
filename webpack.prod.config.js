@@ -139,9 +139,9 @@ module.exports = {
     minimizer: [
       new CssMinimizerPlugin(),
       new HtmlWebpackPlugin(),
-      new TerserPlugin({// 压缩js的
-        test: /\.js(\?.*)?$/i
-      })
+      // new TerserPlugin({// 压缩js的
+      //   test: /\.js(\?.*)?$/i
+      // })
     ]
   },
   
@@ -167,7 +167,9 @@ module.exports = {
     })
     // new webpack.HotModuleReplacementPlugin()
   ],
-  /* 14-mode todo 5中没有mode配置了吧 */
+  /* 14-mode 
+  会将 DefinePlugin 中 process.env.NODE_ENV 的值设置为 production。为模块和 chunk 启用确定性的混淆名称，FlagDependencyUsagePlugin，FlagIncludedChunksPlugin，ModuleConcatenationPlugin，NoEmitOnErrorsPlugin 和 TerserPlugin 。
+  */
   mode: 'production', // 开发 'production' 生产环境, https://v4.webpack.docschina.org/concepts/mode/
   /* 15-解析es6和reactJsx */
 
@@ -262,14 +264,45 @@ https://www.npmjs.com/package/html-webpack-externals-plugin
 https://webpack.docschina.org/plugins/split-chunks-plugin/
 */
 /*
-* 29: 
+* 29: treeshaking-优化 从rollup
+* 用于在production模式下内部存在的优化功能 将未引用的代码删除掉；dce;
+用法：1、必须是通过import的代码；2、使用es6的语法； harmony就是es63、配置副作用文件可以不用tree-shaking:sideEffects:[]|false
 */
-
+/*
+* 30、scope hoisting 从rollup借鉴
+*  mode是none的时候：build后的js文件就会是闭包代码
+* 缺点：1，代码都在闭包中 2、作用于比较多会导致内存消耗大
+*/
+/*
+* 31、代码分割的意义-首屏加载慢的问题
+* 1、前面讲过的 28:splitChunk
+* 2、按需加载：首屏的就首屏代码提取-懒加载，相同代码抽取：
+*     commonJs：require.ensure
+      ES6 动态import：
+          @babel/plugin-syntax-dynamic-impoort 
+*/
+/*
+* 32、构建和eslint
+* 制作eslint规范 airbnb
+* 不重复造轮子，基于airbnb或者腾讯的基础来制定
+* 能够帮助发现代码错误的规则，全部开启
+代码风格统一，但不要限制开发体验；
+* 落地：CI/CD系统集成:从集成和测试阶段，到交付和部署
+        
+       webpack集成:eslint-loader
+*/
+/*
+* 33、webpack打包组件和基础库：
+* 支持esmodule｜cjs｜amd｜script cdn
+*/
 /*
 * todo
 * 魔法教师或者frontend中build或者dev有用到sourcemap吗？什么类型？有用到source的plugins或者loader吗？
 * 运行的很慢在改完东西后：
 * 首屏加载慢： 
+* 项目中设置slid-effects了吗？不然import的css会被删除掉吗？
+* 首页怎么动态加载呢？
+* CI？CD是什么这时候怎么eslint
 */
 }
            
